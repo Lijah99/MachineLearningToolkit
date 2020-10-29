@@ -15,7 +15,7 @@ class LinearRegression:
        num_var = x_shape[1]
        weight_matrix = np.random.normal(0,1,(num_var,1))
        intercept = np.random.rand(1)
-       for i in range(50):
+       for i in range(500):
            dcostdm = np.sum(np.multiply(((np.matmul(X,weight_matrix)+intercept)-Y),X))*2/x_shape[0]
            dcostdc = np.sum(((np.matmul(X,weight_matrix)+intercept)-Y))*2/x_shape[0]
            weight_matrix -= 0.1*dcostdm
