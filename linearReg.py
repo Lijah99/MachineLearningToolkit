@@ -2,7 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', header = None)
+#df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', header = None)
+df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/diamonds.csv')
+
 class LinearRegression:
    def fit(self,X,Y):
        X=np.array(X).reshape(-1,1)
@@ -19,12 +21,15 @@ class LinearRegression:
            weight_matrix -= 0.1*dcostdm
            intercept -= 0.1*dcostdc
        return weight_matrix,intercept
-#print(df.drop(['Gender'],axis=1))
+
+#Linear regression runner
 reg = LinearRegression()
-x = (df['Weight']-df['Weight'].mean())/df['Weight'].std()
-y = (df["Height"]-df['Height'].mean())/df["Height"].std()
+# 0 is sepal length 1 is sepal width
+x = (df['price']-df['price'].mean())/df['price'].std()
+y = (df['carat']-df['carat'].mean())/df['carat'].std()
 params = reg.fit(x,y)
-plt.scatter(x[:180],y[:180])
-pred = np.matmul(np.array(x[:180]).reshape(-1,1),params[0])+params[1]
-plt.plot(x[:180],pred)
+plt.scatter(x[:53940],y[:53940])
+pred = np.matmul(np.array(x[:53940]).reshape(-1,1),params[0])+params[1]
+plt.plot(x[:53940],pred, color = 'red')
 print(params)
+plt.show()
