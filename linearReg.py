@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 #df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', header = None)
-df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/diamonds.csv')
+#df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/diamonds.csv')
 
 class LinearRegression:
    def fit(self,X,Y):
@@ -22,22 +22,22 @@ class LinearRegression:
            intercept -= 0.1*dcostdc
        return weight_matrix,intercept
 
-#Linear regression runner
-reg = LinearRegression()
+# #Linear regression runner
+# reg = LinearRegression()
 
-#setting the indpended variable to price and the dependent to carat
-x = (df['price']-df['price'].mean())/df['price'].std()
-y = (df['carat']-df['carat'].mean())/df['carat'].std()
-#fit the linear regression prediction line to the graph
-params = reg.fit(x,y)
-#add the data to the plot
-plt.scatter(x[:53940],y[:53940])
-pred = np.matmul(np.array(x[:53940]).reshape(-1,1),params[0])+params[1]
-plt.plot(x[:53940],pred, color = 'red')
+# #setting the indpended variable to price and the dependent to carat
+# x = (df['price']-df['price'].mean())/df['price'].std()
+# y = (df['carat']-df['carat'].mean())/df['carat'].std()
+# #fit the linear regression prediction line to the graph
+# params = reg.fit(x,y)
+# #add the data to the plot
+# plt.scatter(x[:53940],y[:53940])
+# pred = np.matmul(np.array(x[:53940]).reshape(-1,1),params[0])+params[1]
+# plt.plot(x[:53940],pred, color = 'red')
 
-#set plot title and axes
-plt.title('Linear Regression: Diamond Data Set')
-plt.xlabel('Price')
-plt.ylabel('Carat')
-#print(params)
-plt.show()
+# #set plot title and axes
+# plt.title('Linear Regression: Diamond Data Set')
+# plt.xlabel('Price')
+# plt.ylabel('Carat')
+# #print(params)
+# plt.show()
