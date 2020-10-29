@@ -36,7 +36,7 @@ pred = np.matmul(np.array(x[:53940]).reshape(-1,1),params[0])+params[1]
 plt.plot(x[:53940],pred, color = 'red')
 
 #set plot title and axes
-plt.title('Linear Regression: Elijah Flinders')
+plt.title('Linear Regression: Diamond Data Set')
 plt.xlabel('Price')
 plt.ylabel('Carat')
 #print(params)
