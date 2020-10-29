@@ -24,12 +24,20 @@ class LinearRegression:
 
 #Linear regression runner
 reg = LinearRegression()
-# 0 is sepal length 1 is sepal width
+
+#setting the indpended variable to price and the dependent to carat
 x = (df['price']-df['price'].mean())/df['price'].std()
 y = (df['carat']-df['carat'].mean())/df['carat'].std()
+#fit the linear regression prediction line to the graph
 params = reg.fit(x,y)
+#add the data to the plot
 plt.scatter(x[:53940],y[:53940])
 pred = np.matmul(np.array(x[:53940]).reshape(-1,1),params[0])+params[1]
 plt.plot(x[:53940],pred, color = 'red')
-print(params)
+
+#set plot title and axes
+plt.title('Linear Regression: Elijah Flinders')
+plt.xlabel('Price')
+plt.ylabel('Carat')
+#print(params)
 plt.show()
