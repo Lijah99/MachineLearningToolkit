@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plot
 import pandas as pd
 from ML import Perceptron
 from ML import plot_decision_regions
@@ -9,27 +9,38 @@ from linearReg import LinearRegression
 #Created by Elijah Flinders
 
 #grab csv
-df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/diamonds.csv')
+data = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', header = None)
 
 #Linear regression runner
-reg = LinearRegression()
+regression = LinearRegression()
 #Perceptron
-pn = Perceptron(0.1,10)
+perceptronClassifier = Perceptron(0.1,1000)
 
-#setting the indpended variable to price and the dependent to carat
-x = (df['price']-df['price'].mean())/df['price'].std()
-y = (df['carat']-df['carat'].mean())/df['carat'].std()
+#setting the axes to sepal length and width
+y = (data[0]-data[0].mean())/data[0].std()
+x = (data[1]-data[1].mean())/data[1].std()
+
 #fit the linear regression prediction line to the graph
-params = reg.fit(x,y)
+params = regression.fit(x,y)
+
 #add the data to the plot
-plt.scatter(x[:53940],y[:53940], s = 1)
-pred = np.matmul(np.array(x[:53940]).reshape(-1,1),params[0])+params[1]
-plt.plot(x[:53940],pred, color = 'red')
+plot.scatter(x[:180],y[:180], s = 15)
+prediction = np.matmul(np.array(x[:180]).reshape(-1,1),params[0])+params[1]
+plot.plot(x[:180],prediction, color = 'red')
 
 #set plot title and axes
-plt.title('Linear Regression: Diamond Data Set')
-plt.xlabel('Price')
-plt.ylabel('Carat')
-plt.show()
+plot.title('Linear Regression: Iris Flower Set')
+plot.xlabel('Sepal Length')
+plot.ylabel('Sepal Width')
+plot.show()
 
-#pn.fit(x,y)
+##creating and setting perceptron for classification of data based on x dimension
+xPercep = data.iloc[0:180, [1,0]].values
+yPercep = data.iloc[0:180, 4].values
+yPercep = np.where(yPercep == 'Iris-setosa', -1, 1)
+
+perceptronClassifier.fit(xPercep,yPercep)
+
+#plot vc dim classification
+plot_decision_regions(xPercep, yPercep, perceptronClassifier)
+

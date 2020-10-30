@@ -78,7 +78,7 @@ def plot_decision_regions(X, y, classifier, resolution = 0.02):
 
     # plot class samples
     for idx, cl in enumerate(np.unique(y)):
-        plt.scatter(x = X[y == cl, 0], y = X[y == cl, 1], alpha = 0.8,
+        plt.scatter(x = X[y == cl, 0], y = X[y == cl, 1], alpha = 0.8, s = 15,
                     c = cmap(idx), marker = markers[idx], label = cl)
 
     #show plot
