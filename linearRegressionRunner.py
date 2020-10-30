@@ -2,7 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plot
 import pandas as pd
 from ML import Perceptron
-from ML import plot_decision_regions
+import utils
+from decisionStump import DecisionStump
 from linearReg import LinearRegression
 
 #Main Script Run
@@ -15,6 +16,9 @@ data = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/ir
 regression = LinearRegression()
 #Perceptron
 perceptronClassifier = Perceptron(0.1,1000)
+
+#low vc decision stump learner
+stump = DecisionStump()
 
 #setting the axes to sepal length and width
 y = (data[0]-data[0].mean())/data[0].std()
@@ -41,6 +45,9 @@ yPercep = np.where(yPercep == 'Iris-setosa', -1, 1)
 
 perceptronClassifier.fit(xPercep,yPercep)
 
-#plot vc dim classification
-plot_decision_regions(xPercep, yPercep, perceptronClassifier)
+stump.fit(xPercep,yPercep)
 
+#plot vc dim classification
+utils.plot_decision_regions(xPercep, yPercep, stump, "Stump Decision Classifier, Low VC")
+
+utils.plot_decision_regions(xPercep, yPercep, perceptronClassifier, "Perceptron Classifier on Same Data")
