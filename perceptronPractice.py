@@ -1,6 +1,6 @@
 import pandas as pd, numpy as np, matplotlib.pyplot as plt
-from ML import Perceptron
-from ML import plot_decision_regions
+from perceptron.py import Perceptron
+import utils
 
 #Main Script Run
 #This script will show as an example of the use of a Perceptron in Machine Learning
@@ -33,4 +33,4 @@ plt.ylabel('# of misclassifications')
 plt.show()
 
 #plot decision regions
-plot_decision_regions(x, y, pn)
+utils.plot_decision_regions(x, y, pn)
