@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plot
 import pandas as pd
-from ML import Perceptron
+from perceptron import Perceptron
 import utils
 from decisionStump import DecisionStump
 from linearReg import LinearRegression
