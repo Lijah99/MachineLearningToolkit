@@ -13,7 +13,7 @@ class SVM:
         self.iterations = 10000
         self.learningRate = 0.000001
 
-    def calcSVM(self):
+    def fit(self):
         #read data in using pandas
         data = pd.read_csv('breastCancerData.csv')
 
@@ -22,6 +22,7 @@ class SVM:
         data.drop(data.columns[[-1, 0]], axis=1, inplace=True)
 
         #convert categorical labels to numbers
+        #M-malignant tumor, B-benign tumor
         diagnosisMap = {'M': 1.0, 'B': -1.0}
         data['diagnosis'] = data['diagnosis'].map(diagnosisMap)
 
@@ -30,8 +31,8 @@ class SVM:
         X = data.iloc[:, 1:]
 
         #remove less significant features for better accuracy
-        self.remove_correlated_features(X)
-        self.remove_less_significant_features(X, Y)
+        self.removeCorrelFeatures(X)
+        self.removeInsigFeatures(X, Y)
 
         #normalize data for better convergence and to prevent overflow
         normalizedX = MinMaxScaler().fit_transform(X.values)
@@ -57,8 +58,8 @@ class SVM:
             yp = np.sign(np.dot(xTest.to_numpy()[i], W))
             yTestPredicted = np.append(yTestPredicted, yp)
 
-        print("accuracy on test dataset: {}".format(accuracy_score(yTest, yTestPredicted)))
-        print("precision on test dataset: {}".format(recall_score(yTest, yTestPredicted)))
+        print("Accuracy of prediction on data:",'{0:.2f}%'.format(accuracy_score(yTest, yTestPredicted) * 100))
+        print("Precision of predictor on data:",'{0:.2f}%'.format(recall_score(yTest, yTestPredicted) * 100))
 
     def calcCostGradient(self, W, xBatch, yBatch):
         #if only one example is passed (eg. in case of SGD)
@@ -81,24 +82,24 @@ class SVM:
         return dw
 
     def sgd(self, features, outputs):
-        maxEpochs = 5000
+        maxIterations = 626
         weights = np.zeros(features.shape[1])
         nth = 0
         previousCost = float("inf")
         #cost threshold in percentage
         costThreshold = 0.01
         #SGD officially begins
-        for epoch in range(1, maxEpochs):
+        for iteration in range(1, maxIterations):
             #shuffle to prevent repeating update cycles
             X, Y = shuffle(features, outputs)
             for ind, x in enumerate(X):
                 ascent = self.calcCostGradient(weights, x, Y[ind])
                 weights = weights - (self.learningRate * ascent)
 
-            #convergence check on 2^nth epoch
-            if epoch == 2 ** nth or epoch == maxEpochs - 1:
+            #convergence check on 2^nth iteration
+            if iteration == 5 ** nth or iteration == maxIterations - 1:
                 cost = self.computeCost(weights, features, outputs)
-                print("Epoch is: {} and Cost is: {}".format(epoch, cost))
+                print("Iteration: {}, Cost: {}".format(iteration, cost))
                 #stoppage criterion
                 if abs(previousCost - cost) < costThreshold * previousCost:
                     return weights
@@ -119,8 +120,9 @@ class SVM:
         cost = 1 / 2 * np.dot(W, W) + hingeLoss
         return cost
 
-
-    def remove_correlated_features(self, X):
+    # will run through the X values and determine if the features are correlated
+    # if found, the corresponding columns are dropped
+    def removeCorrelFeatures(self, X):
         corr_threshold = 0.9
         corr = X.corr()
         drop_columns = np.full(corr.shape[0], False, dtype=bool)
@@ -132,8 +134,9 @@ class SVM:
         X.drop(columns_dropped, axis=1, inplace=True)
         return columns_dropped
 
-
-    def remove_less_significant_features(self, X, Y):
+    # removes insignificant features found in both regressed x and y columns. 
+    # if found, the respective columns are dropped
+    def removeInsigFeatures(self, X, Y):
         sl = 0.05
         regression_ols = None
         columns_dropped = np.array([])

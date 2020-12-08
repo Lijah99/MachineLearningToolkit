@@ -1,12 +1,12 @@
-# Make Predictions with k-nearest neighbors on the Iris Flowers Dataset
 from csv import reader
 from math import sqrt
 
+# k-nearest neighbor learner and predictor: Elijah Flinders
 class KNN:
     def __init__(self):
         pass
     # Load a CSV file
-    def loadCsvList(self, filename):
+    def loadCsvListKnn(self, filename):
         dataset = list()
         with open(filename, 'r') as file:
             csv_reader = reader(file)
@@ -37,7 +37,7 @@ class KNN:
 
 
     # Find the min and max values for each col
-    def dataset_minmax(self, dataset):
+    def dataMaxMin(self, dataset):
         minmax = list()
         for i in range(len(dataset[0])):
             col_values = [row[i] for row in dataset]
