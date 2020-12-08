@@ -15,7 +15,7 @@ import knn
 print("*********************************************************************")
 print("Creating and testing SVM on it's own dataset. Support Vector Machine")
 print("*********************************************************************")
-svm = svm.SVM()
+svm = svm.SVM(10000,0.000001)
 svm.fit()
 print("Finished running the SVM!\n")
 

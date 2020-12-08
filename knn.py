@@ -5,17 +5,15 @@ from math import sqrt
 class KNN:
     def __init__(self):
         pass
-    # Load a CSV file
-    def loadCsvListKnn(self, filename):
-        dataset = list()
-        with open(filename, 'r') as file:
-            csv_reader = reader(file)
-            for row in csv_reader:
-                if not row:
-                    continue
-                dataset.append(row)
-        return dataset
 
+    # Make a prediction with neighbors
+    def predict(self, train, testRow, numNeighbors):
+        # set neighbors to calculated neighbors
+        neighbors = self.neighborCalc(train, testRow, numNeighbors)
+        outputValues = [row[-1] for row in neighbors]
+        # set prediction to max values based on count
+        prediction = max(set(outputValues), key=outputValues.count)
+        return prediction
 
     # Convert string col to float
     def colToFloat(self, dataset, col):
@@ -39,10 +37,12 @@ class KNN:
     # Find the min and max values for each col
     def dataMaxMin(self, dataset):
         minmax = list()
+        # loop through data and set max and min
         for i in range(len(dataset[0])):
             col_values = [row[i] for row in dataset]
             value_min = min(col_values)
             value_max = max(col_values)
+            # append them to minmax list
             minmax.append([value_min, value_max])
         return minmax
 
@@ -57,29 +57,34 @@ class KNN:
     # Calculate the Euclidean distance between two vectors
     def euclidDistCalc(self, row1, row2):
         distance = 0.0
+        # calc euclidean distance going through each component
         for i in range(len(row1) - 1):
             distance += (row1[i] - row2[i]) ** 2
         return sqrt(distance)
 
 
-    # Locate the most similar neighbors
-    def neighborCalc(self, train, test_row, num_neighbors):
+    # Calculate most similar neighbors from 
+    def neighborCalc(self, train, testRow, numNeighbors):
         distances = list()
-        for train_row in train:
-            dist = self.euclidDistCalc(test_row, train_row)
-            distances.append((train_row, dist))
+        # go through training set and grab euclid dist of each
+        for trainRow in train:
+            dist = self.euclidDistCalc(testRow, trainRow)
+            distances.append((trainRow, dist))
+        # sort the distances
         distances.sort(key=lambda tup: tup[1])
         neighbors = list()
-        for i in range(num_neighbors):
+        # append neighbors based on distance
+        for i in range(numNeighbors):
             neighbors.append(distances[i][0])
         return neighbors
 
-
-    # Make a prediction with neighbors
-    def predict(self, train, testRow, numNeighbors):
-        neighbors = self.neighborCalc(train, testRow, numNeighbors)
-        outputValues = [row[-1] for row in neighbors]
-        prediction = max(set(outputValues), key=outputValues.count)
-        return prediction
-
-
+    # Load a CSV file
+    def loadCsvListKnn(self, filename):
+        dataset = list()
+        with open(filename, 'r') as file:
+            csv_reader = reader(file)
+            for row in csv_reader:
+                if not row:
+                    continue
+                dataset.append(row)
+        return dataset
