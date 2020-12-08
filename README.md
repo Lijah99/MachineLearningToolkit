@@ -18,11 +18,11 @@ This repository of machine learning algorithms was made by Elijah Flinders, a st
 ## Portfolio Description
 This is a portfolio containing cumulative ideas gathered in a semester of learning for a machine learning class. It is to display the progress and understanding of basic machine learning concepts that have been gathered throughout the semester. This library contains the following classifiers and runners to demonstrate them:
 
-# Decision Stump -               Class: decisionStump.py Runner: linearRegStumpRunner.py
-# Perceptron -                      Class: perceptron.py Runner: perceptronPractice.py
-# K-th Nearest Neighbor -   Class: knn.py Runner: svmKnnRunner.py
-# Support Vector Machine - Class: svm.py Runner: svmKnnRunner.py
-# Linear Regression -          Class: LinearReg.py Runner: linearRegStumpRunner.py
+### Decision Stump -               Class: decisionStump.py Runner: linearRegStumpRunner.py
+### Perceptron -                      Class: perceptron.py Runner: perceptronPractice.py
+### K-th Nearest Neighbor -   Class: knn.py Runner: svmKnnRunner.py
+### Support Vector Machine - Class: svm.py Runner: svmKnnRunner.py
+### Linear Regression -          Class: LinearReg.py Runner: linearRegStumpRunner.py
 
 Provided below is external library information, compilation/running instructions, and in-depth descriptions of classifiers and their respective functions.
 
