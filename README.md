@@ -68,7 +68,7 @@ The only caveat is that you must ensure that your runner file, if making your ow
 This can be run in any cmd or bash terminal with access to the necessary libraries and python3.
 This current library was last developed using python 3.7.
 
-## Classifiers and Respective Functions
+# Classifiers and Respective Functions
 ## Decision Stub Algorithm (Low Level)
 A decision stump is a machine learning model consisting of a one-level decision tree and it is pretty low level in terms of trainers. Meaning t is a decision tree with one internal node (the root) which is immediately connected to the terminal nodes (its leaves). A decision stump makes a prediction based on the value of just a single input feature.
 
