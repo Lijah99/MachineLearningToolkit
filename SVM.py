@@ -31,7 +31,7 @@ class SVM:
         Y = data.loc[:, 'diagnosis']
         X = data.iloc[:, 1:]
 
-        #remove less significant features for better accuracy
+        # remove less significant and correlated features for better accuracy
         self.removeCorrelFeatures(X)
         self.removeInsigFeatures(X, Y)
 
@@ -97,6 +97,7 @@ class SVM:
             #shuffle feature and ouputs to prevent repeats
             X, Y = shuffle(features, outputs)
             for ind, x in enumerate(X):
+                # calculate the cost gradient and set weights using learning rate and gradient
                 ascent = self.calcCostGradient(weights, x, Y[ind])
                 weights = weights - (self.learningRate * ascent)
 

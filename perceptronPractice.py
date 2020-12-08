@@ -1,5 +1,5 @@
 import pandas as pd, numpy as np, matplotlib.pyplot as plt
-from perceptron.py import Perceptron
+from perceptron import Perceptron
 import utils
 
 #Main Script Run
