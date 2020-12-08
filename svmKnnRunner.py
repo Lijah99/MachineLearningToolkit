@@ -38,7 +38,7 @@ neighbors = 5
 testSetosa = [4.5, 2.3, 1.3, 0.3]
 testVersicolor = [7.0, 3.2, 4.7, 1.4]
 testVirginica = [6.3, 3.3, 6.0, 2.5]
-# predict the label
+# try to predict labels for each type
 label = knnTester.predict(dataset, testSetosa, neighbors)
 print('\nPrediction being fed to KNN=%s\nPredicted label/membership: %s. It was Setosa(2)' % (testSetosa, label))
 
