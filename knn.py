@@ -1,12 +1,12 @@
-#Make Predictions with k-nearest neighbors on the Iris Flowers Dataset
+# Make Predictions with k-nearest neighbors on the Iris Flowers Dataset
 from csv import reader
 from math import sqrt
 
 class KNN:
     def __init__(self):
         pass
-    #Load a CSV file with
-    def load_csv(self, filename):
+    # Load a CSV file
+    def loadCsvList(self, filename):
         dataset = list()
         with open(filename, 'r') as file:
             csv_reader = reader(file)
@@ -16,61 +16,70 @@ class KNN:
                 dataset.append(row)
         return dataset
 
-    #Convert string column to integer
-    def strColumnToInt(self, dataset, column):
-        classVals = [row[column] for row in dataset]
-        unique = set(classVals)
+
+    # Convert string col to float
+    def colToFloat(self, dataset, col):
+        for row in dataset:
+            row[col] = float(row[col].strip())
+
+
+    # Convert string col to integer
+    def colToInt(self, dataset, col):
+        class_values = [row[col] for row in dataset]
+        unique = set(class_values)
         lookup = dict()
         for i, value in enumerate(unique):
             lookup[value] = i
             print('[%s] => %d' % (value, i))
         for row in dataset:
-            row[column] = lookup[row[column]]
+            row[col] = lookup[row[col]]
         return lookup
 
-    #Convert string column to float
-    def strColumnToFloat(self, dataset, column):
-        for row in dataset:
-            row[column] = float(row[column].strip())
 
-    #Locate the most similar neighbors
-    def getNeighbors(self, train, rowTest, numNeighbors):
-        distances = list()
-        for rowTrain in train:
-            dist = self.euclideanDistance(rowTest, rowTrain)
-            distances.append((rowTrain, dist))
-        distances.sort(key=lambda tup: tup[1])
-        neighbors = list()
-        for i in range(numNeighbors):
-            neighbors.append(distances[i][0])
-        return neighbors
-
-    #Find the min and max values for each column
-    def datasetMinMax(self, dataset):
+    # Find the min and max values for each col
+    def dataset_minmax(self, dataset):
         minmax = list()
         for i in range(len(dataset[0])):
-            colVals = [row[i] for row in dataset]
-            minVal = min(colVals)
-            maxVal = max(colVals)
-            minmax.append([minVal, maxVal])
+            col_values = [row[i] for row in dataset]
+            value_min = min(col_values)
+            value_max = max(col_values)
+            minmax.append([value_min, value_max])
         return minmax
 
-    #Calculate the Euclidean distance between two vectors
-    def euclideanDistance(self, row1, row2):
+
+    # Rescale dataset cols to the range 0-1
+    def normalData(self, dataset, minmax):
+        for row in dataset:
+            for i in range(len(row)):
+                row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
+
+
+    # Calculate the Euclidean distance between two vectors
+    def euclidDistCalc(self, row1, row2):
         distance = 0.0
         for i in range(len(row1) - 1):
             distance += (row1[i] - row2[i]) ** 2
         return sqrt(distance)
 
-    #Make a prediction with neighbors
-    def predict(self, train, rowTest, numNeighbors):
-        neighbors = self.getNeighbors(train, rowTest, numNeighbors)
-        output = [row[-1] for row in neighbors]
-        prediction = max(set(output), key=output.count)
+
+    # Locate the most similar neighbors
+    def neighborCalc(self, train, test_row, num_neighbors):
+        distances = list()
+        for train_row in train:
+            dist = self.euclidDistCalc(test_row, train_row)
+            distances.append((train_row, dist))
+        distances.sort(key=lambda tup: tup[1])
+        neighbors = list()
+        for i in range(num_neighbors):
+            neighbors.append(distances[i][0])
+        return neighbors
+
+
+    # Make a prediction with neighbors
+    def predict(self, train, testRow, numNeighbors):
+        neighbors = self.neighborCalc(train, testRow, numNeighbors)
+        outputValues = [row[-1] for row in neighbors]
+        prediction = max(set(outputValues), key=outputValues.count)
         return prediction
 
-    #Rescale dataset columns to the range 0-1
-    def normalizeDataset(self, dataset, minmax):
-        for row in dataset:
-            for i in range(len(row)):
-                row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
+
